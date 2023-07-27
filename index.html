@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+  <title>Bionic Reading Website</title>
+  <style>
+    /* CSS Styles Go Here */
+    .bionic-text {
+      font-weight: bold;
+    }
+    h1 {text-align: center;}
+    h3 {text-align: center;}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1 class="center">Bionic Reading - By Yeetus</h1>
+      <h3 class="center">Read Better Even With ADHD!</h3>
+      <br>
+
+      
+    </header>
+    <div class="wrapper">
+      <div class="text-input">
+        <main>
+          <div>
+            <textarea spellcheck="false" class="from-text" placeholder="Enter text" id="inputText"></textarea>
+            <hr>
+
+            <div spellcheck="false" readonly disabled class="to-text" id="outputText"></div>
+            <hr>
+            
+            <div><button id="readButton">Convert Text</button><button id="copyText">Copy Text To Clipboard</button> </div>
+
+          <br> 
+          </div>
+
+        
+             
+          
+        </main>
+
+        <script>
+          // JavaScript Code Goes Here
+          const readButton = document.getElementById('readButton');
+          const copyButton = document.getElementById('copyText');
+          const inputText = document.getElementById('inputText');
+          const outputText = document.getElementById('outputText');
+
+          readButton.addEventListener('click', function () {
+            const text = inputText.value;
+            const bionicText = toBionicReading(text);
+            outputText.innerHTML = bionicText;
+          });
+
+          function toBionicReading(text) {
+      const words = text.split(' ');
+      const bionicWords = words.map(word => {
+        let firstLetters = '';
+        let restOfWord = '';
+        if (word.length > 2) {
+          if (word.length >= 5 && word.length <= 6) {
+            firstLetters = word.substr(0, 3);
+            restOfWord = word.substr(3);
+          } else if (word.length >= 7) {
+            firstLetters = word.substr(0, 4);
+            restOfWord = word.substr(4);
+          } else {
+            firstLetters = word.substr(0, 2);
+            restOfWord = word.substr(2);
+          }
+          return `<span class="bionic-text">${firstLetters}</span>${restOfWord}`;
+        } else {
+          return word;
+        }
+      });
+
+      readButton.textContent = 'i farded!';
+      setTimeout(() => {
+        readButton.textContent = 'Convert Text';
+      }, 900);
+      return bionicWords.join(' ');
+    }
+
+    copyButton.addEventListener('click', function() {
+      // Create a new textarea element to temporarily hold the text
+      const tempElement = document.createElement('div');
+      tempElement.innerHTML = outputText.innerHTML;
+      document.body.appendChild(tempElement);
+
+  
+      const range = document.createRange();
+      range.selectNode(tempElement);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+
+      document.body.removeChild(tempElement)
+
+      // Update the button text briefly to indicate successful copying
+      copyButton.textContent = 'Copied!';
+      setTimeout(() => {
+        copyButton.textContent = 'Copy Text To Clipboard';
+      }, 1500);
+    });
+
+
+        </script>
+</body>
+
+</html>
